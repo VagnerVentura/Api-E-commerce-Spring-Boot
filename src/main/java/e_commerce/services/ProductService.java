@@ -1,6 +1,7 @@
 package e_commerce.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,14 @@ public class ProductService {
 
 	public List<Product> findAll() {
 		return productRepository.findAll();
+	}
+
+	public Product findProductById(Long productId) {
+		
+		var product = productRepository.findById(productId)
+				.orElseThrow(()-> new RuntimeException("Product Not Found!"));		
+		
+		return product;
 	}
 	
 }
