@@ -38,9 +38,9 @@ public class UserService {
 		return entity.stream().map(this::toDto).collect(Collectors.toList());
 	}
 
-	public Optional<Cart> findCartByUserId(Long userId) {
-		return userRepository.findCartByUser_Id(userId);
-	}
+//	public Optional<Cart> findCartByUserId(Long userId) {
+//		return userRepository.findCartByUser_Id(userId);
+//	}
 
 	public User findById(Long userId) {
 		User user = userRepository.findById(userId)

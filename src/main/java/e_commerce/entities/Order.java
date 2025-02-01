@@ -1,5 +1,7 @@
 package e_commerce.entities;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -8,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,18 +23,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_carts")
-public class Cart {
+@Table(name = "tb_orders")
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
-	@OneToOne
-	@JoinColumn(name = "user", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@OneToMany(mappedBy = "cart" , cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<CartItem> cartItems;
+	@OneToMany(mappedBy="order", cascade = CascadeType.ALL)
+	private List <OrderItem> orderItems;
 	
+	private LocalDateTime orderDate;
+	
+	private BigDecimal totalAmount;
 }

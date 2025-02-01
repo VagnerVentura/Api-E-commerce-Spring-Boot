@@ -29,7 +29,7 @@ public class CartService {
 		Product product = productService.findProductById(dto.productId());
 		
 		CartItem items = cart
-				.getItems()
+				.getCartItems()
 				.stream()
 				.filter(cartItem -> cartItem.getProduct().getId().equals(dto.productId()))
 						.findFirst()
@@ -39,7 +39,7 @@ public class CartService {
 							newItem.setCart(cart);
 							newItem.setQuantity(0);						
 							newItem.setPrice(product.getPrice());	
-							cart.getItems().add(newItem);
+							cart.getCartItems().add(newItem);
 							return newItem;
 						});
 		
@@ -49,16 +49,20 @@ public class CartService {
 		return cart;
 	}
 
-	private Cart FindCartByUserIdOrCreateCart(Long userId) {
+	public Cart FindCartByUserIdOrCreateCart(Long userId) {
 		User user = userService.findById(userId);
 		
-		Cart cart = cartRepository.findByUserId(userId)
+		Cart cart = cartRepository.findByUser_id(userId)
 				.orElseGet(()-> {
 					Cart newCart = new Cart();
 					newCart.setUser(user);
 					return newCart;
 				});
 		return cart;
+	}
+
+	public void deleteCart(Cart cart) {
+		cartRepository.delete(cart);		
 	}
 
 }
